@@ -1,0 +1,6 @@
+{
+	"name": "Note-List-MERN app",
+	"description": "A note list built with the MERN stack",
+	"repository": "https://github.com/perfect090/Note-List-MERN.git",
+	"keywords": ["node", "express", "babel"]
+}
