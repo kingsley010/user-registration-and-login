@@ -15,6 +15,10 @@
     "type": "git",
     "url": "git+https://github.com/perfect090/Note-List-MERN.git"
   },
+  "engines": {
+    "node": "10.15.0",
+    "npm": "6.4.1"
+  },
   "author": "Kingsley Obioha",
   "license": "MIT",
   "dependencies": {
