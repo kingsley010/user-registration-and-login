@@ -7,25 +7,58 @@ import User from '../models/userModel';
 class UserController {
 
     /**
+     * @method homePage
+     * @description home page
+     * @param {object} req - The Request Object
+     * @param {object} res - The Response Object
+     * @returns {object} JSON API Response
+     */
+    async homePage(req, res) {
+        res.status(200).send("Home Page!");
+    }
+
+
+    /**
+     * @method userPage
+     * @description user page
+     * @param {object} req - The Request Object
+     * @param {object} res - The Response Object
+     * @returns {object} JSON API Response
+     */
+     async userPage(req, res) {
+        res.status(200).send("user Page!");
+    }
+
+
+    /**
      * @method registerUser
      * @description register a user
      * @param {object} req - The Request Object
      * @param {object} res - The Response Object
      * @returns {object} JSON API Response
      */
-    async register (req, res) {
+    async register(req, res) {
         
-        const { email, password } = req.body;
+        const {username, email, password } = req.body;
 
-        if (!email || !password) {
+        if (!username || !email || !password) {
             console.log('pls fill in all fields');
-            return res.status(400).json({ msg: 'Please fill in all fields' });
+            return res.status(400).json({ message: 'Please fill in all fields' });
         }
         
         try {
+
+            // Check if username already exists in the database
+            const user_name = await User.findOne({ username });
+            if (user_name) {
+                return res.status(400).json({ message: 'Username already in use. Please use another username' });
+            }
+
             // Check if email already exists in the database
             const user = await User.findOne({ email });
-            if (user) throw Error('User already exists');
+            if (user) {
+                return res.status(400).json({ message: 'Email already in use. Please use another email' });
+            }
             
             // Generate salt 
             const salt = await bcrypt.genSalt(10);
@@ -37,6 +70,7 @@ class UserController {
         
             // instantiate the User
             const newUser = new User({
+              username,  
               email,
               password: hash
             });
@@ -53,8 +87,9 @@ class UserController {
               token,
               user: {
                 id: savedUser.id,
+                username: savedUser.username,
                 email: savedUser.email,
-                msg: 'user registered'
+                message: 'user registered'
               }
             });
         } catch (e) {
@@ -71,18 +106,20 @@ class UserController {
      * @param {object} res - The Response Object
      * @returns {object} JSON API Response
      */
-    async login (req, res) {
-        const { email, password } = req.body;
+    async login(req, res) {
+        const { username, password } = req.body;
 
-        // CHeck if email or password is empty
-        if (!email || !password) {
+        // Check if username or password is empty
+        if (!username || !password) {
             return res.status(400).json({ msg: 'Please fill in all fields' });
         }
 
         try {
             // Check for existing user
-            const user = await User.findOne({ email });
-            if (!user) throw Error('User does not exist');
+            const user = await User.findOne({ username });
+            if (!user) {
+                return res.status(404).send({ message: "User Not found." });
+            }
 
             // Check if password in the database matches the password the user is inputting
             const isMatch = await bcrypt.compare(password, user.password);
@@ -92,11 +129,12 @@ class UserController {
             if (!token) throw Error('Could not sign token');
 
             res.status(200).json({
-                token,
+                //token,
                 user: {
                     id: user._id,
-                    email: user.email,
-                    msg: 'user signed in'
+                    username: user.username,
+                    message: 'user signed in',
+                    accessToken: token
                 }
             })
         } catch (e) {

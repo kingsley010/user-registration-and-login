@@ -2,6 +2,10 @@ import mongoClient from 'mongoose';
 
 // Create Schema
 const userSchema = mongoClient.Schema({
+    username: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true

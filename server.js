@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoClient from 'mongoose';
 import bodyParser from 'body-parser';
-import config from './config/env';
 import path from 'path'; 
 import cors from 'cors';
 import morgan from 'morgan';
