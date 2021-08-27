@@ -21,13 +21,15 @@ class AuthMiddleware {
 
             // Verify Token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            //console.log(decoded);
             if (!decoded) throw Error('unable to decode token');
 
             // Add user from payload
             req.user = decoded.id;
-            next();
+           // console.log(decoded.id);
+        
         } catch (e) {
-            res.status(400).json({ message: 'Invalid token' })
+            res.status(400).json({ message: e.message })
         }
     }
 }    
