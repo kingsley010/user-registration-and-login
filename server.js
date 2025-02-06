@@ -4,8 +4,9 @@ import bodyParser from 'body-parser';
 import path from 'path'; 
 import cors from 'cors';
 import morgan from 'morgan';
+import dotenv from "dotenv"; 
 
-require('dotenv').config();
+dotenv.config();
 
 const app = express();
 
@@ -16,26 +17,24 @@ app.use(morgan('dev'));
 //Body-parser Middleware
 app.use(bodyParser.json());
 
+const mongoUri = process.env.MONGO_URI;
+const mongiDbName = process.env.MONGO_DB_NAME
+
 // DB Config
-// const db = `${MONGO_URI}/${MONGO_DB_NAME}`;
-const db = 'mongodb://localhost:27017/azure';
+const dataBase = `${mongoUri}/${mongiDbName}`;
 
 // Connect to Mongo DB
-mongoClient.connect(db, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-  }) 
-  .then(() => console.log(`Connected to MongoDB ${db}`))
+mongoClient.connect(dataBase) 
+  .then(() => console.log(`Connected to MongoDB ${dataBase}`))
   .catch(err => console.log(err));
 
 // Route Files
-import items from './routes/itemRoute';
-import users from './routes/userRoute';
-app.use('/api/v1', items);
+import shipping from './routes/shippingRoute.js';
+import users from './routes/userRoute.js';
+app.use('/api/v1', shipping);
 app.use('/api/v1', users);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {

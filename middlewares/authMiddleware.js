@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+import jwt from 'jsonwebtoken';
 
 const verifyToken = (req, res, next) => {
     let token = req.headers["x-access-token"];
@@ -23,4 +23,4 @@ const verifyToken = (req, res, next) => {
     verifyToken
   };
 
-  module.exports = auth;
+  export default auth;

@@ -1,7 +1,11 @@
-// Transpile all code following this line with babel and use 'env' (aka ES6) preset.
-require('@babel/register')({
-    presets: [ '@babel/preset-env' ]
-})
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 
-// Import the rest of our application.
-module.exports = require('./server.js');
+require("@babel/register")({
+  presets: ["@babel/preset-env"],
+});
+
+// Dynamically import `server.js`
+import("./server.js")
+  .then(() => console.log("🚀 Server started successfully"))
+  .catch((err) => console.error("❌ Error starting server:", err));

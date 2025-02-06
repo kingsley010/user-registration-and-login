@@ -1,6 +1,6 @@
 {
-	"name": "Note-List-MERN app",
-	"description": "A note list built with the MERN stack",
-	"repository": "https://github.com/perfect090/Note-List-MERN.git",
+	"name": "shipping costs app",
+	"description": "An app used in calculating shipping costs",
+	"repository": "https://github.com/kingsley010/shipping-costs-calculator.git",
 	"keywords": ["node", "express", "babel"]
 }
