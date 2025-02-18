@@ -29,7 +29,7 @@ class ShippingController {
 
             console.log(totalCost);
 
-            response.json({ cargoType, weight, distance, totalCost });
+            response.json({ cargoType, weight, distance, totalCost, currency: rate.currency });
 
         } catch (error) {
             response.status(500).json({

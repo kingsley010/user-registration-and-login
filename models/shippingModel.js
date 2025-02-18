@@ -5,11 +5,11 @@ const shippingRateSchema = mongoClient.Schema({
   cargoType: { 
     type: String,
     required: true
- },
+   },
   weight: {
      type: Number,
      required: true
- },
+   },
   distance: {
      type: Number,
      required: true
@@ -18,6 +18,9 @@ const shippingRateSchema = mongoClient.Schema({
      type: Number,
      required: true
      }, 
+     currency: {
+       type: String, required: true
+      },
 });
 
 shippingRateSchema.index({ cargoType: 1, weight: 1, distance: 1 });
