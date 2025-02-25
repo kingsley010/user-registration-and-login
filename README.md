@@ -33,11 +33,11 @@ This takes one to the homepage.
 # GET /api/v1/users
 This takes one to the user page.
 
-# POST /api/v1/signpp/
+# POST /api/v1/signup/
 This is used to register.
 
 # POST /api/v1/login
-This is used for loggin in.
+This is used for logging in.
 
 # POST /api/v1/calculateCost
 This calculates the shipping cost based on cargo type</br></br>
