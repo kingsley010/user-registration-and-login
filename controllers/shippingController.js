@@ -12,6 +12,18 @@ class ShippingController {
     static async calculateCost(request, response) {
         try {
             const { weight, distance, cargoType } = request.body;
+            const cacheKey = `shipping:${cargoType}:${weight}:${distance}`;
+
+            console.log("cached key: ", cacheKey);
+
+            // Check Redis Cache
+            // const cachedData = await redisClient.get(cacheKey);
+            // console.log("cachedData: ", cachedData);
+            // console.log("parsed cached Data: ", JSON.parse(cachedData));
+
+            // if (cachedData) {
+            //     return res.json(JSON.parse(cachedData)); 
+            // }
 
             console.log(cargoType);
 
@@ -26,6 +38,9 @@ class ShippingController {
             }
 
             const totalCost = rate.basePrice + weight * rate.weight + distance * rate.distance;
+
+            // Store result in Redis (Cache for 1 hour)
+            // await redisClient.setEx(cacheKey, 3600, JSON.stringify(totalCost));
 
             console.log(totalCost);
 
